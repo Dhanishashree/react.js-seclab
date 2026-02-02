@@ -1,35 +1,27 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React,{useEffect,useState} from 'react'
 
 function App() {
-     const [greetings,setGreetings]=useState("")
-     useEffect(()=>{
-      let hours=new Date().getHours().toString().padStart(2,'0')
-      let mins=new Date().getMinutes().toString().padStart(2,'0')
-     let seconds=new Date().getSeconds().toString().padStart(2,'0')
-      
-
-      if(hours<12){
-        setGreetings(`Good Morning  ${hours}:${mins}:${seconds}`)
-      }
-      else if(hours>=12 && hours<=17){
-        setGreetings(`Good Afternoon  ${hours}:${mins}:${seconds}`)
-      }
-      else if(hours>=17 && hours<=19){
-        setGreetings(`Good evening  ${hours}:${mins}:${seconds}`)
-      }
-      else {
-        setGreetings(`Good Night  ${hours}:${mins}:${seconds}`)
-      }
-    })
+  const[user,setUser]=useState([]);
+  useEffect(()=>{
+    fetch("https://jsonplaceholder.typicode.com/users")
+    .then((response)=>response.json())
+    .then((data)=>setUser(data))
+  },[])
   return (
-   
-      <div>
-       <h1>{greetings}</h1>
+    <div className='container'>
+       <h2 className='title'>UserDetails</h2>
+      <div className='user-list'> 
+        {user.map((Details)=>(
+           <div key={Details.id}>
+             <p>Name:{Details.name}</p>
+             <p>User Email:{Details.email}</p>
+            </div>
+          ))}
+        
       </div>
-  ) 
-  }
+
+    </div>
+  )
+}
 
 export default App
